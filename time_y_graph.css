@@ -1,0 +1,21 @@
+path.data-line {
+    stroke: #3f72bf;
+    stroke-linejoin: round;
+    stroke-width: 3;
+}
+
+path.fill-line {
+    stroke: #3f72bf;
+    opacity: 0.6;
+}
+
+circle {
+    fill: white;
+    stroke: #3f72bf;
+    stroke-width: 2;
+}
+
+.invisible {
+	visibility: hidden;
+}
+

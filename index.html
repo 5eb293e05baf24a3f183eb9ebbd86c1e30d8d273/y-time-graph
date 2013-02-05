@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="time_y_graph.css" rel="stylesheet" media="screen">
+    <script src="raphael-min.js"></script>
+    <script src="jquery.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <header>
+			<div class ="row">
+				<div class ="offset5 span6">
+					<ul class="nav nav-pills" >
+						<li >
+							<a href ="?time_resolution_in_seconds=1">view every second</a>
+						</li>
+						<li>
+							<a href ="?time_resolution_in_seconds=60">view every minute</a>
+						</li>
+						<li>
+							<a href ="?time_resolution_in_seconds=3600">view every hour</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div id ="point_data" style ="text-align: center;">
+				<span>PCU</span>
+				<span id = "pcu" class="badge badge-info"></span>
+				<span>@</span>
+				<select id = "time" class="input-xlarge badge badge-info">
+					<option></option>
+					<option></option>
+					<option></option>
+					<option></option>
+				</select>
+			</div>
+    </header>
+    <div id = "graph_container" style = "overflow-x: auto;"></div>
+    <script src="time_y_graph.js"></script>
+</body>
+</html>
