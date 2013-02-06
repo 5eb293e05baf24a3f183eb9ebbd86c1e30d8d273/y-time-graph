@@ -12,6 +12,10 @@ var TRACKING_CIRCLE_RADIUS = 4;
 
 var US_EASTERN_TIME_OFFSET = -5;
 
+var GRAPH_WIDTH_BUFFER = 5;
+
+var GRAPH_WIDTH_INCREASE_DELTA = 60;
+
 var SELECTED_TIME_LINK_HIGHLIGHT_CLASS = 'disabled';
 
 var CANVAS_H, CANVAS_W, SECS_PER_PIXEL, Y_VALUE_PER_PIXEL, STARTING_TIME, PAPER;
@@ -31,8 +35,18 @@ function updateGraph() {
 	}); 
 }
 
+function increase_graph_width_if_necessary(current_max_x) {
+	var graph_current_width = parseInt($('svg').attr('width'));
+	if ((graph_current_width - current_max_x) <= GRAPH_WIDTH_BUFFER) {
+		$('svg').attr('width', graph_current_width + GRAPH_WIDTH_INCREASE_DELTA);
+	}
+}
+
 function draw_path(raw_y) {
 	var last_x = get_last_x();
+	
+	increase_graph_width_if_necessary(last_x);
+	
 	// Draw a new data line.
 	var data_line = PAPER.path("M" + last_x + " " + get_last_y() + "L" + (last_x + 1) + " " + y_coordinate(raw_y));	
 	$(data_line.node).attr("class", "data-line");
@@ -145,9 +159,9 @@ $(window).load(function() {
 	highlight_selected_time_link();
 	
 	// Show a maximum of 365-day data.
-	CANVAS_W = 60 * 60 * 24 * 365 / SECS_PER_PIXEL;
+	//CANVAS_W = 60 * 60 * 24 * 365 / SECS_PER_PIXEL;
 
-	PAPER = Raphael("graph_container", CANVAS_W, CANVAS_H);
+	PAPER = Raphael("graph_container", innerWidth, CANVAS_H);
 	
 	updateGraph();
 	setInterval(updateGraph, SECS_PER_PIXEL * 1000);
