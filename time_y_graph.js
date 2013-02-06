@@ -75,7 +75,7 @@ function y_coordinate(raw_y) {
 }
 
 function get_path(x_coordinate) {
-	return $("path.data-line[d^=M" + x_coordinate + "]");
+	return $("path.data-line[d*='L" + x_coordinate + ",']");
 }
 
 function get_xy_in_path(path, choice) {
