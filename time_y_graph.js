@@ -18,7 +18,7 @@ var GRAPH_WIDTH_INCREASE_DELTA = 60;
 
 var SELECTED_TIME_LINK_HIGHLIGHT_CLASS = 'active';
 
-var CANVAS_H, CANVAS_W, SECS_PER_PIXEL, Y_VALUE_PER_PIXEL, STARTING_TIME, PAPER;
+var CANVAS_H, SECS_PER_PIXEL, Y_VALUE_PER_PIXEL, STARTING_TIME, PAPER;
 
 function updateGraph() {
 	$.getJSON(DATA_SOURCE_URL, function(data) {
@@ -43,8 +43,8 @@ function increase_graph_width_if_necessary(current_max_x) {
 }
 
 function draw_path(raw_y) {
-	var last_x = get_last_x();
-	var last_y = get_last_y();
+	var last_x = get_last_dimension('x');
+	var last_y = get_last_dimension('y');
 	
 	var new_x = last_x + 1;
 	var new_y = y_coordinate(raw_y);
@@ -64,16 +64,10 @@ function draw_path(raw_y) {
 	$(fill_line.node).attr("class", "fill-line");
 }
 
-function get_last_y() {
+function get_last_dimension(dimension) {
 	var path = $("path.data-line").last();
 	if (path.length == 0) return -1;
-	else return get_xy_in_path(path, 'y2');
-}
-
-function get_last_x() {
-	var path = $("path.data-line").last();
-	if (path.length == 0) return -1;
-	else return get_xy_in_path(path, 'x2');
+	else return get_xy_in_path(path, dimension + '2');
 }
 
 function y_coordinate(raw_y) {
@@ -166,9 +160,6 @@ $(window).load(function() {
 	SECS_PER_PIXEL = location.search.match(/time_resolution_in_seconds=(\d+)/)[1];
 
 	highlight_selected_time_link();
-	
-	// Show a maximum of 365-day data.
-	//CANVAS_W = 60 * 60 * 24 * 365 / SECS_PER_PIXEL;
 
 	PAPER = Raphael("graph_container", innerWidth, CANVAS_H);
 	
