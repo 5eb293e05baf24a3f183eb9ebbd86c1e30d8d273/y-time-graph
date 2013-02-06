@@ -16,7 +16,7 @@ var GRAPH_WIDTH_BUFFER = 5;
 
 var GRAPH_WIDTH_INCREASE_DELTA = 60;
 
-var SELECTED_TIME_LINK_HIGHLIGHT_CLASS = 'disabled';
+var SELECTED_TIME_LINK_HIGHLIGHT_CLASS = 'active';
 
 var CANVAS_H, CANVAS_W, SECS_PER_PIXEL, Y_VALUE_PER_PIXEL, STARTING_TIME, PAPER;
 
@@ -44,26 +44,35 @@ function increase_graph_width_if_necessary(current_max_x) {
 
 function draw_path(raw_y) {
 	var last_x = get_last_x();
+	var last_y = get_last_y();
+	
+	var new_x = last_x + 1;
+	var new_y = y_coordinate(raw_y);
+	
+	if ((last_x == -1) && (last_y == -1)) {
+		last_x = new_x;
+		last_y = new_y;
+	}
 	
 	increase_graph_width_if_necessary(last_x);
 	
 	// Draw a new data line.
-	var data_line = PAPER.path("M" + last_x + " " + get_last_y() + "L" + (last_x + 1) + " " + y_coordinate(raw_y));	
+	var data_line = PAPER.path("M" + last_x + " " + last_y + "L" + new_x + " " + new_y);	
 	$(data_line.node).attr("class", "data-line");
 	// Draw a fill line.
-	var fill_line = PAPER.path("M" + (last_x + 1) + " " + y_coordinate(raw_y) + "V" + y_coordinate(0));	
+	var fill_line = PAPER.path("M" + new_x + " " + new_y + "V" + y_coordinate(0));	
 	$(fill_line.node).attr("class", "fill-line");
 }
 
 function get_last_y() {
 	var path = $("path.data-line").last();
-	if (path.length == 0) return y_coordinate(0);
+	if (path.length == 0) return -1;
 	else return get_xy_in_path(path, 'y2');
 }
 
 function get_last_x() {
 	var path = $("path.data-line").last();
-	if (path.length == 0) return 0;
+	if (path.length == 0) return -1;
 	else return get_xy_in_path(path, 'x2');
 }
 
