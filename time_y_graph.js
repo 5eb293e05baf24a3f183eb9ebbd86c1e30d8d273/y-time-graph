@@ -109,7 +109,7 @@ function convert_x_to_time(x_coordinate) {
 function show_raw_on_page_at_x(x_coordinate) {
 	var path = get_path(x_coordinate);
 	if (path.length != 0) {
-		var y_coordinate = get_xy_in_path(path, 'y1');
+		var y_coordinate = get_xy_in_path(path, 'y2');
 		display_tracking_circle(x_coordinate, y_coordinate);
 		display_data(convert_x_to_time(x_coordinate), convert_y_to_raw_y(y_coordinate));
 	}
